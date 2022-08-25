@@ -1,5 +1,6 @@
 {
   "private": true,
+  "main": "build/src/index.js",
   "devDependencies": {
     "@types/node": "^14.11.2",
     "@types/tail": "^2.2.1",
