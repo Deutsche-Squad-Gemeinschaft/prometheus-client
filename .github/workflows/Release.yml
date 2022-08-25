@@ -1,0 +1,20 @@
+name: Publish
+on:
+  release:
+    types: [published]
+    
+jobs:
+  Publish:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Set version
+      run: npm version --no-git-tag-version ${GITHUB_REF#refs/*/}
+
+    - name: Build
+      run: npm run compile
