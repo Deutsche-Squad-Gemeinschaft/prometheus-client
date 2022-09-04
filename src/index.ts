@@ -35,7 +35,7 @@ tail.on('error', error => {
 /* Report Prometheus metrics on / */
 app.get('/metrics', async (req, res, next) => {
   res.set('Content-Type', registry.contentType);
-  res.end(registry.metrics());
+  res.end(await registry.metrics());
 
   console.log('[EXPRESS] Served metrics!');
 
