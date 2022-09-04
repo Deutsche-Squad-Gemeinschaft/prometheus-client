@@ -33,7 +33,7 @@ tail.on('error', error => {
 });
 
 /* Report Prometheus metrics on / */
-app.get('/', async (req, res, next) => {
+app.get('metrics', async (req, res, next) => {
   res.set('Content-Type', registry.contentType);
   res.end(registry.metrics());
 
