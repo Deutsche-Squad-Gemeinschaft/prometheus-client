@@ -4,6 +4,7 @@ import 'dotenv/config';
 import {Registry, Gauge} from 'prom-client';
 import {Tail} from 'tail';
 import express from 'express';
+import { query } from 'gamedig';
 
 const app = express();
 
@@ -13,7 +14,7 @@ const registry = new Registry();
 /* Create and configure TPS gauge */
 const gaugeTPS = new Gauge({
   name: 'squad_server',
-  help: 'Statistics for the Squad Server',
+  help: 'TPS statistics for the Squad Server',
   registers: [registry],
   labelNames: ['type'],
 });
@@ -31,6 +32,33 @@ tail.on('line', (data: string) => {
 tail.on('error', error => {
   console.error('[TAIL] ERROR: ', error);
 });
+
+const gaugePlayers = new Gauge({
+  name: 'squad_server',
+  help: 'Players statistics for the Squad Server',
+  registers: [registry],
+  labelNames: ['type'],
+});
+
+const gaugeMaps = new Gauge({
+  name: 'squad_server',
+  help: 'Players statistics for the Squad Server',
+  registers: [registry],
+  labelNames: ['type'],
+});
+
+setInterval(async() => {
+  const result = await query({
+    type: 'squad',
+    host: `127.0.0.1:${process.env.SQUAD_QUERY_PORT}`
+  });
+
+
+  console.log('[GAMEDIG] Queried server! Adding to gauges...');
+  gaugePlayers.set({type: 'Players'}, result.players.length);
+  gaugeMaps.set({type: 'Players'}, result.map);
+}, 1000 * 15);
+
 
 /* Report Prometheus metrics on / */
 app.get('/metrics', async (req, res, next) => {
