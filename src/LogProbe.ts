@@ -1,4 +1,7 @@
 import { Tail } from "tail";
+import container from "./ioc/Container";
+import { IoCTypes } from "./ioc/IoCTypes";
+import PromClient from "./PromClient";
 
 export default class LogProbe
 {
@@ -16,7 +19,7 @@ export default class LogProbe
             );
             if (matches) {
                 console.log(`[${(new Date()).toISOString()}][tail] Matched line! Adding to gauge...`);
-                gaugeTPS.set({type: 'TPS'}, parseFloat(matches[3]));
+                container.get<PromClient>(IoCTypes.PromClient).gaugeTPS.set({type: 'TPS'}, parseFloat(matches[3]));
             }
         });
         
