@@ -1,0 +1,9 @@
+# Configuration
+.env
+
+# Build
+build
+
+# NPM
+node_modules
+package-lock.json
