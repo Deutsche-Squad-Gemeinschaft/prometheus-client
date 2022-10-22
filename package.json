@@ -6,7 +6,9 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "gamedig": "^4.0.5",
+    "inversify": "^6.0.1",
     "prom-client": "^14.1.0",
+    "reflect-metadata": "^0.1.13",
     "tail": "^2.2.4"
   },
   "devDependencies": {
